@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.join(File.dirname(__FILE__), '../lib/shared/testbot.rb'))
+
+def show_help
+  puts "Testbot #{Testbot.version}"
+  puts
+  puts "Testbot is a test distribution tool that works with Rails, RSpec, Test::Unit and Cucumber."
+  puts
+  puts "More info: http://github.com/joakimk/testbot"
+  puts "Wiki:      http://github.com/joakimk/testbot/wiki"
+  puts
+  puts "Examples:"
+  puts "  testbot --server"
+  puts "  testbot --runner --connect 192.168.0.100"
+  puts "  testbot --test --connect 192.168.0.100"
+  puts 
+  puts "Types:"
+  puts "  --server <start|stop|run>"
+  puts "  --runner <start|stop|run>"
+  Adapter.all.each do |adapter|
+    puts "  --#{adapter.type}\t\t\t# Run #{adapter.name} tests"
+  end
+  puts
+  puts "Runner options:"
+  puts "  --connect <host_or_ip>\t# Which server to use (required)"
+  puts "  --working_dir <path>\t\t# Where to store temporary files (default: #{Testbot::DEFAULT_WORKING_DIR})"
+  puts "  --cpus <number>\t\t# The number of CPU cores to use (default: use all)"
+  puts "  --ssh_tunnel\t\t\t# Use a ssh tunnel"
+  puts "  --user <username>\t\t# Use a custom ssh tunnel user (default: testbot)"
+  puts "  --auto_update\t\t\t# Keep testbot updated to the same version as the server."
+  puts "  --max_jruby_instances <num>\t# To use less instances when running JRuby (as it requires more memory)"
+  puts "  --jruby_opts <-J-X...>\t# Options to JRuby."
+  puts
+  puts "Test options:"
+  puts "  --connect <host_or_ip>\t# Which server to use (required)"
+  puts "  --rsync_ignores <ignores>\t# Files to ignore when syncing (default: include all)"
+  puts "  --rsync_path <path>\t\t# Sync path on the server (default: #{Testbot::DEFAULT_SERVER_PATH})"
+  puts "  --ssh_tunnel\t\t\t# Use a ssh tunnel"
+  puts "  --user <username>\t\t# Use a custom rsync / ssh tunnel user (default: #{Testbot::DEFAULT_USER})"
+  puts "  --project <project_name>\t# Use a custom project name (default: #{Testbot::DEFAULT_PROJECT})"
+  puts
+  puts "Other:"
+  puts "  --help\t\t\t# Show help (this page)"
+  puts "  --version\t\t\t# Show the testbot version"
+
+  # puts "                                           # (when the server gem version is changed,"
+  # puts "                                           #  this runs gem install with the same version"
+  # puts "                                           #  and restarts the test runner)"
+
+
+  # TODO:
+  # puts " --use_git_ignore                          # Don't rsync files that are ignored by git"
+  # puts "  --status                                 # Show running background processes"
+  # puts "  --port <number>                          # Use a custom port"
+
+end
+
+show_help unless Testbot::CLI.run(ARGV)

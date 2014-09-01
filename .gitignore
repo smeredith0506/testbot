@@ -1,0 +1,16 @@
+.deploy_config.yml
+*.db
+pkg
+todo.txt
+*.pid
+instance*
+**/*.rbc
+*.sh
+*/*.swp
+*.swp
+*/**/.*.swp
+*/**/*.swp
+*/*/*/*.swp
+tmp
+.bundle/bin
+script
