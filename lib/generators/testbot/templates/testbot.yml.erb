@@ -1,0 +1,45 @@
+# You can use ERB here.
+
+# Which server to use.
+server_host: <%= options[:connect] %>
+<%- if options[:user] -%>
+server_user: <%= options[:user] %>
+<%- else -%>
+# server_user: <%= Testbot::DEFAULT_USER %>
+<%- end -%>
+
+# Project prefix. Used for prefixing project files
+# so that you can run multiple projects in the same testbot network.
+<%- if options[:project] %>
+project: <%= options[:project] %>
+<%- else -%>
+# project: <%= Testbot::DEFAULT_PROJECT %>
+<%- end -%>
+
+# RSync settings. The folder where your files are synced to
+# and then fetched from before running the tests.
+<%- if options[:rsync_path] -%>
+rsync_path: <%= options[:rsync_path] %>
+<%- else -%>
+# rsync_path: <%= Testbot::DEFAULT_SERVER_PATH %>
+<%- end -%>
+<%- if options[:rsync_ignores] -%>
+rsync_ignores: <%= options[:rsync_ignores] %>
+<%- else -%>
+# rsync_ignores:
+<%- end -%>
+
+# To tunnel traffic through SSH
+<%- if options[:ssh_tunnel] -%>
+ssh_tunnel: true
+<%- else -%>
+# ssh_tunnel: true
+<%- end -%>
+
+# Runner usage. Set to a lower percentage to not use
+# every available instance or higher to create more
+# jobs than there are instances.
+available_runner_usage: 100%
+
+# Enable more logging from the requester
+# logging: true

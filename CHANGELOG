@@ -1,0 +1,264 @@
+0.7.8
+
+Fix test job bug that caused multiple jobs to use the same TEST_ENV_NUMBER.
+
+This caused multiple processes to use the same databases, etc.
+
+If you're seeing database deadlocks in tests, this will probably fix that.
+
+0.7.7
+
+Exit when file syncing fails so that you don't run tests for a version of the
+code you did not expect.
+
+0.7.5
+
+Fixed bug where a runner updating without a result would fail.
+
+Also dropping official support for 1.8 as it's such a hassle to maintain.
+
+0.7.3
+
+Increased time between updates to avoid timeouts. Allow timeout when posting
+incremental build results (but not when posting the final results).
+
+Should make testbot more stable for some people.
+
+0.7.2
+
+Increased timeout on http requests to the server to 10 seconds.
+
+0.7.1
+
+Fixed a bug introduced in 0.7.0. The TEST_INSTANCES env-variable are now
+present again when running before_run scripts.
+
+0.7.0
+
+Added per project rvm support. Using this you can run testbot using system ruby
+while being able to run test processes using the project rvm environment. This
+is also useful if you have several projects with different rvm rubies and gemsets.
+
+0.6.9
+
+Removed dependency on macaddr as that does not work on some platforms.
+
+0.6.8
+
+Fixed broken gem lookup in ruby 1.9.
+
+0.6.6
+
+The runner will now run config/testbot/before_run.rb if it exists.
+
+Replaced the old process code with the posix-spawn gem's methods. This fixed
+process shutdown in my current setup. Hopefully more stable overall.
+
+The requester will now request that the build is stopped when exiting early (like when killed),
+and not only on ctrl+c (SIGINT).
+
+Most of this was based on a fork by https://github.com/Skalar.
+
+0.6.5
+
+Fixed test unit require path so that it works with ruby 1.9.
+
+0.6.4
+
+Fixed bug with running test unit tests that caused errors like '/bin/ruby:1: Invalid char `\317' in expression`'.
+
+Now handling errors creating builds.
+
+Returning 503 and reporting that there are no runners when that is the case.
+
+0.6.3
+
+Results are now shown as they happen. It takes care not to break escape codes used for
+coloring output (only tested with rspec, add a script/spec file containing "rspec --tty $@").
+
+Also, you can add a "logging: true" option to testbot.yml to see when files are synced, etc.
+
+0.6.2
+
+Fixed "invalid byte sequence in UTF-8" errors cased by test output in some cases.
+
+0.6.1
+
+Fixed CPU core check for OSX Lion.
+
+Updated sinatra requirement so that it's a bit less strict
+(https://github.com/joakimk/testbot/pull/41).
+
+0.6.0
+
+Fixed bug that caused the runner to crash and block the server after checking for jobs (issue #34).
+
+Merged in https://github.com/joakimk/testbot/pull/33 (Bugfix: Run rake task testbot:before_run with bundler if present).
+
+0.5.9
+
+When you hit ctrl+c all related test jobs will be stopped (within about 5 seconds). You can
+now exit, change code and re-run much faster than before.
+
+It does not stop before_run or code fetch. But no tests will be run after
+those complete when the build is stopped.
+
+0.5.8
+
+Now only running tests from one build on a runner at a time.
+
+This is mostly usability. Testbot should behave like when you're running your tests locally.
+
+0.5.7
+
+Added @meeiw's patch to support ERB in config. Added test result summarization for RSpec and Cucumber.
+
+0.5.6
+
+Removed CPU usage check before running jobs (issue #25).
+
+0.5.5
+
+Added RSpec2 support. Thanks to Bryan Helmkamp, https://github.com/brynary.
+
+0.5.4
+
+Fixed some typos that caused the ruby interpreter to always be "ruby".
+
+0.5.3
+
+Added support for rubygems-test and http://gem-testers.org.
+
+0.5.1
+
+Fixed a bug that caused exit status to be 1 even if the test run is successful.
+
+0.5.0
+
+Made the status page load faster but check less often.
+
+0.4.9
+
+There is now a very basic status page at http://testbot_server:2288/status.
+
+0.4.8
+
+Removed all remaining native dependencies to make testbot simpler to install.
+
+0.4.7
+
+Refactored the code into modules with one directory for each. No longer dependent on mongel, now using webrick.
+
+0.4.6
+
+Fixed a bug that caused auto_update not to check for an update after a job had been run.
+
+0.4.5
+
+Made auto_update a bit more reliable.
+
+0.4.4
+
+Changed to using the deamons gem. Seems to fix some problems with old processes
+not closing down when using auto_update.
+
+0.4.2
+
+Added support for quick deploys when developing testbot.
+
+0.4.0
+
+Fixed RSpec 2 compability issue.
+
+0.3.9
+
+Added support for running tests with bundler exec.
+
+0.3.8
+
+Testbot now uses exit code to determine if the test run has failed.
+
+0.3.7
+
+The runner now checks right away for another job if it got one last time around.
+
+0.3.6
+
+Added Rails 2 generator support.
+
+0.3.5
+
+Fixed ssh_tunnel bug when using a custom user.
+
+0.3.4
+
+Bundler support. Testbot now runs "bundle" before "testbot:before_run" if you
+have "bundle" in path and have a "Gemfile" in the project so that the
+rails environment can load.
+
+0.3.3
+
+Fixed loading issue in rails 2, testbot depended on having rails installed as a gem.
+
+0.3.0
+
+Made testbot into a gem. Simplified the design. Added a CLI. Removed git support.
+
+0.2.3
+
+Added JRuby support.
+
+0.2.2
+
+Replaced runtime optimization code with a simpler file size based method.
+
+0.2.1
+
+Added support for Test:Unit and multiple projects.
+
+0.2.0
+
+Added "ssh_tunnel" so that you don't have to be able to access the http server directly.
+
+0.1.9
+
+The server can now handle if a runner is shutdown in the middle of a test run (it will give the
+job to another runner).
+
+0.1.8
+
+Added cucumber support and failure detection to the client. Added docs. Added code that uses
+historic test runtimes to reduce test runtime (in theory).
+
+0.1.7
+
+Added a basic client so that testbot can be installed as a rails plugin. 'rake testbot:spec'.
+
+0.1.6
+
+Now only fetching the code once, and only keeping one copy of it. Less overhead.
+
+0.1.5
+
+Added "/runners/total_instances" to be able to balance requesters by knowing how many instances
+there are in total.
+
+0.1.4
+
+Added support for fetching the latest version from git instead of rsync when doing a test run.
+
+0.1.3
+
+Added "/runners/available" to see how many runners are available.
+
+0.1.2
+
+Added cucumber support.
+
+0.1.1
+
+Added a CPU usage check to make sure that the runner does not start a job when the computer is busy.
+
+0.1
+
+Added hostname and STDERR to runner results.
