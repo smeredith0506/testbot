@@ -17,10 +17,10 @@ class Rspec2Adapter
   def self.test_files(dir)
     if ENV['SELENIUM_SPECS']
       puts 'running selenium specs'
-      test_files = FileList['spec/selenium/**/*_spec.rb'] + FileList['vendor/plugins/*/spec_canvas/selenium/*_spec.rb']
+      test_files = FileList['spec/selenium/**/*_spec.rb'] + FileList['{gems,vendor}/plugins/*/spec_canvas/selenium/*_spec.rb'] 
     elsif ENV['PLUGIN_SPECS']
       puts 'running plugin specs'
-      test_files = FileList['vendor/plugins/*/spec_canvas/**/*_spec.rb'].exclude('vendor/plugins/*/spec_canvas/selenium/*_spec.rb') + FileList['spec/**/*_spec.rb'].exclude('spec/selenium/**/*_spec.rb')
+      test_files = FileList['{gems,vendor}/plugins/*/spec_canvas/**/*_spec.rb'].exclude(%r'spec_canvas/selenium') + FileList['spec/**/*_spec.rb'].exclude(%r'spec/selenium') 
     else
       puts 'normal pattern'
       test_files = Dir["#{dir}/#{file_pattern}"]
