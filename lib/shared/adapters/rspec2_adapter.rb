@@ -11,7 +11,7 @@ class Rspec2Adapter
       spec_command += " -O spec/spec.opts"
     end
 
-    "export RSPEC_COLOR=true; #{spec_command} #{files} #{ENV[RSPEC_TAGS]} || nil}"
+    "export RSPEC_COLOR=true; #{spec_command} #{files} #{ENV['RSPEC_TAGS']} || nil}"
   end
 
   def self.test_files(dir)
