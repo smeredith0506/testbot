@@ -1,6 +1,5 @@
 require File.dirname(__FILE__) + '/../shared/adapters/adapter'
-
-namespace :testbot, do
+namespace :testbot do
   
   def run_and_show_results(adapter, custom_path)
     'testbot:before_request'.tap { |t| Rake::Task.task_defined?(t) && Rake::Task[t].invoke }
@@ -20,11 +19,9 @@ namespace :testbot, do
   end
   
   Adapter.all.each do |adapter|
-
     desc "Run the #{adapter.name} tests using testbot"
     task adapter.type, :custom_path do |_, args|
       exit 1 unless run_and_show_results(adapter, args[:custom_path])
     end
-
   end
 end
