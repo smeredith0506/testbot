@@ -7,10 +7,12 @@ class Rspec2Adapter
       :bin => "rspec",
       :ruby_interpreter => ruby_interpreter)
 
+    spec_command = "#{spec_command} #{ENV['RSPEC_TAGS']}" unless ENV['RSPEC_TAGS'].nil?
+
     if File.exists?("#{project_path}/spec/spec.opts")
       spec_command += " -O spec/spec.opts"
     end
-
+    
     "export RSPEC_COLOR=true; #{spec_command} #{files}"
   end
 
