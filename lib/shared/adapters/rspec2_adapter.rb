@@ -6,12 +6,12 @@ class Rspec2Adapter
     spec_command = RubyEnv.ruby_command(project_path,
       :bin => "rspec",
       :ruby_interpreter => ruby_interpreter)
-
+   
     if File.exists?("#{project_path}/spec/spec.opts")
       spec_command += " -O spec/spec.opts"
     end
 
-    "export RSPEC_COLOR=true; #{spec_command} #{files}"
+    "export RSPEC_COLOR=true; #{spec_command} #{files} #{ENV[RSPEC_TAGS]} || nil}"
   end
 
   def self.test_files(dir)
