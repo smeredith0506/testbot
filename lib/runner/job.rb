@@ -90,7 +90,7 @@ module Testbot::Runner
 
       Thread.new do
         Process.waitpid(@pid)
-        @success = ($?.exitstatus == 0)
+        @success = ($?.exitstatus == 0 || $?.exitstatus == 99)
         write_pipe.close
       end
 
