@@ -10,7 +10,7 @@ class Rspec2Adapter
     if File.exists?("#{project_path}/spec/spec.opts")
       spec_command += " -O spec/spec.opts"
     end
-    "export RSPEC_COLOR=true; #{spec_command} #{files}"
+    "export RSPEC_COLOR=true; #{spec_command} --failure-exit-code 99 #{files}"
   end
 
   def self.test_files(dir)
